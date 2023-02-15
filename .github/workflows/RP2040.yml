@@ -1,0 +1,39 @@
+name: RP2040
+
+on: workflow_dispatch
+#on: 
+#    schedule:
+#      - cron: '0 0 1 * *'
+
+jobs:
+    RP2040:
+        strategy:
+            matrix:
+                include:
+                    - os: ubuntu-22.04
+                      platform: linux/amd64
+        runs-on: ${{ matrix.os }}
+        steps:
+            - name: Fetch repo
+              uses: actions/checkout@v3
+
+            - name: Detect changes
+              uses: dorny/paths-filter@v2
+              id: change
+              with:
+                filters: |
+                    file-change:
+                        - Development/hardware/RP2040/Dockerfile
+            
+            - name: Get date
+              run: echo t=$(date +"%Y%m%d") >> $GITHUB_ENV
+
+            - name: Build image and publish
+              if: steps.change.output.file-change == true
+              uses: docker/build-push-action@v4
+              with:
+                context: Development/hardware/RP2040/
+                file: Development/hardware/RP2040/Dockerfile
+                platforms: ${{ matrix.platform }}
+                push: true
+                tags: resripper/rp2040-dev:${{ env.t }}

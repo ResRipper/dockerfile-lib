@@ -1,6 +1,9 @@
 # syntax=docker/dockerfile:1-labs
 FROM ubuntu:22.04
 
+LABEL org.opencontainers.image.description='RP2040 DEV'
+LABEL org.opencontainers.image.licenses='MIT'
+
 # Install requirements
 RUN apt update && apt upgrade -y && \
     apt install -y cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential python3 python3-pip
