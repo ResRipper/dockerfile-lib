@@ -39,4 +39,4 @@ jobs:
                 file: Development/hardware/RP2040/Dockerfile
                 platforms: linux/amd64
                 push: true
-                tags: resripper/rp2040:${{ env.t }}
+                tags: ghcr.io/resripper/rp2040-dev:${{ env.t }}
