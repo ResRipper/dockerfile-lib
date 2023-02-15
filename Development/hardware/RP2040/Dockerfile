@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1-labs
 FROM ubuntu:22.04
 
+LABEL org.opencontainers.image.source="https://github.com/ResRipper/Dockerfile-LIB"
 LABEL org.opencontainers.image.description='RP2040 DEV'
 LABEL org.opencontainers.image.licenses='MIT'
 
