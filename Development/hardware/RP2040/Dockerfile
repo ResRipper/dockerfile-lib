@@ -7,7 +7,7 @@ LABEL org.opencontainers.image.licenses='MIT'
 # Install requirements
 RUN apt update && apt upgrade -y && \
     apt install -y cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential python3 python3-pip wget
-RUN wget https://github.com/ResRipper/picotool/releases/download/v1.1.1/picotool-linux-x64 && chmod +x picotool-linux-x64\
+RUN wget https://github.com/ResRipper/picotool/releases/download/v1.1.1/picotool-linux-x64 && chmod +x picotool-linux-x64 && \
     mv picotool-linux-x64 /usr/bin/picotool
 
 # Get pico SDK & examples
