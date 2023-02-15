@@ -26,10 +26,11 @@ jobs:
                         - Development/hardware/RP2040/Dockerfile
             
             - name: Get date
+              #if: steps.change.output.file-change == true
               run: echo t=$(date +"%Y%m%d") >> $GITHUB_ENV
 
             - name: Build image and publish
-              if: steps.change.output.file-change == true
+              #if: steps.change.output.file-change == true
               uses: docker/build-push-action@v4
               with:
                 context: Development/hardware/RP2040/
