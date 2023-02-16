@@ -6,10 +6,9 @@ LABEL org.opencontainers.image.description='RP2040 DEV'
 LABEL org.opencontainers.image.licenses='MIT'
 
 # Install requirements
-RUN apt update && apt upgrade -y && \
-    apt install -y cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential python3 python3-pip wget git libusb-1.0-0
-RUN if [ "uname -p"=="aarch64" ]; then wget -O /usr/bin/picotool https://github.com/ResRipper/picotool/releases/download/v1.1.1/picotool-linux-arm64; chmod +x /usr/bin/picotool; fi
-RUN if [ "uname -p"=="x86_64" ]; then wget -O /usr/bin/picotool https://github.com/ResRipper/picotool/releases/download/v1.1.1/picotool-linux-x64; chmod +x /usr/bin/picotool; fi
+RUN apt update && apt install -y cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential python3 python3-pip wget git libusb-1.0-0
+RUN if [ "$(uname -p)" == "aarch64" ]; then wget -O /usr/bin/picotool https://github.com/ResRipper/picotool/releases/download/v1.1.1/picotool-linux-arm64 && chmod +x /usr/bin/picotool; fi
+RUN if [ "$(uname -p)" == "x86_64" ]; then wget -O /usr/bin/picotool https://github.com/ResRipper/picotool/releases/download/v1.1.1/picotool-linux-x64 && chmod +x /usr/bin/picotool; fi
 
 # Get pico SDK & examples
 RUN mkdir -p /var/pico /root/projects
