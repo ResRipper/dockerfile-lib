@@ -1,15 +1,15 @@
 name: RP2040
 
 on: workflow_dispatch
-#on: 
-#    schedule:
-#      - cron: '0 0 1 * *'
 
 jobs:
     x64:
         runs-on: ubuntu-22.04
         permissions:
             packages: write
+        strategy:
+            matrix:
+                arch: ['linux/amd64', 'linux/arm64']
         steps:
             - name: Fetch repo
               uses: actions/checkout@v3
@@ -23,7 +23,6 @@ jobs:
                         - Development/hardware/RP2040/Dockerfile
             
             - name: Get date
-              #if: steps.change.output.file-change == true
               run: echo t=$(date +"%Y%m%d") >> $GITHUB_ENV
             
             - name: Login to Github
@@ -32,13 +31,18 @@ jobs:
                   registry: ghcr.io
                   username: ${{ github.actor }}
                   password: ${{ secrets.GITHUB_TOKEN }}
+            
+            - name: Setup QEMU
+              uses: docker/setup-qemu-action@v2
+
+            - name: Setup Buildx
+              uses: docker/setup-buildx-action@v2
 
             - name: Build image and publish
-              #if: steps.change.output.file-change == true
               uses: docker/build-push-action@v4
               with:
                 context: Development/hardware/RP2040/
                 file: Development/hardware/RP2040/Dockerfile
-                platforms: linux/amd64
+                platforms: ${{ matrix.arch }}
                 push: true
                 tags: ghcr.io/resripper/rp2040-dev:${{ env.t }}
