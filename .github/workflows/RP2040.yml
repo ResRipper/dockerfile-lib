@@ -3,7 +3,7 @@ name: RP2040
 on: workflow_dispatch
 
 jobs:
-    x64:
+    RP2040:
         runs-on: ubuntu-22.04
         permissions:
             packages: write
