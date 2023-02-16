@@ -7,9 +7,7 @@ jobs:
         runs-on: ubuntu-22.04
         permissions:
             packages: write
-        strategy:
-            matrix:
-                arch: ['linux/amd64', 'linux/arm64']
+            
         steps:
             - name: Fetch repo
               uses: actions/checkout@v3
@@ -43,6 +41,6 @@ jobs:
               with:
                 context: Development/hardware/RP2040/
                 file: Development/hardware/RP2040/Dockerfile
-                platforms: ${{ matrix.arch }}
+                platforms: linux/amd64,linux/arm64
                 push: true
                 tags: ghcr.io/resripper/rp2040-dev:${{ env.t }}
