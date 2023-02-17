@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1-labs
 FROM ubuntu:22.04
 
 LABEL org.opencontainers.image.source="https://github.com/ResRipper/Dockerfile-LIB"
@@ -14,13 +13,9 @@ RUN if [ "$(uname -p)" = "aarch64" ]; then wget -O /usr/bin/picotool https://git
 RUN if [ "$(uname -p)" = "x86_64" ]; then wget -O /usr/bin/picotool https://github.com/ResRipper/picotool/releases/download/v1.1.1/picotool-linux-x64 && chmod +x /usr/bin/picotool; fi
 
 # Get pico SDK & examples
-ADD --keep-git-dir=true https://github.com/raspberrypi/pico-sdk.git#master /var/pico/pico-sdk
-WORKDIR /var/pico/pico-sdk
-RUN git submodule update --init
-ADD --keep-git-dir=true https://github.com/raspberrypi/pico-examples.git#master /var/pico/pico-examples
-
-# Get pico project generator
-ADD --keep-git-dir=true https://github.com/raspberrypi/pico-project-generator.git#master /root/pico-project-generator
+RUN git clone -b master https://github.com/raspberrypi/pico-sdk.git /var/pico/pico-sdk && cd /var/pico/pico-sdk && git submodule update --init && \
+    git clone -b master https://github.com/raspberrypi/pico-examples.git /var/pico/pico-examples && \
+    git clone -b master https://github.com/raspberrypi/pico-project-generator.git /root/pico-project-generator
 
 ENV PICO_SDK_PATH=/var/pico/pico-sdk
 
