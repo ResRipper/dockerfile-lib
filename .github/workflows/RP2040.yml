@@ -42,4 +42,5 @@ jobs:
                 platforms: linux/amd64,linux/arm64
                 push: true
                 tags: ghcr.io/resripper/rp2040-dev:${{ env.t }}, resripper/rp2040-dev:${{ env.t }}
-                
+                cache-from: type=gha
+                cache-to: type=gha,mode=max
