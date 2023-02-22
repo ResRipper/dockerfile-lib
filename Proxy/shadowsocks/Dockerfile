@@ -18,6 +18,9 @@ RUN if [ "$(uname -p)" = "x86_64" ]; \
 
 FROM ghcr.io/shadowsocks/ssserver-rust:v1.15.2 as server
 
+LABEL org.opencontainers.image.source="https://github.com/ResRipper/Dockerfile-LIB"
+LABEL org.opencontainers.image.description='shadowsocks-rust + v2ray'
+
 COPY --from=middle /usr/local/bin/v2ray-plugin /usr/local/bin/v2ray-plugin
 
 CMD ["ssserver", "-a", "nobody", "-s", "0.0.0.0:10000", "-m", "${ENCRYPT}", "-k", "${PASSWD}", "--plugin", "${PLUGIN}", "--plugin-opts", "${PLUGIN_OPT}"]
