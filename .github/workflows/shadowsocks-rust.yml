@@ -3,7 +3,7 @@ name: Shadowsocks-rust
 on: workflow_dispatch
 
 jobs:
-    RP2040:
+    ss-rust:
         runs-on: ubuntu-22.04
         permissions:
             packages: write
@@ -31,12 +31,6 @@ jobs:
             - name: Setup Buildx
               uses: docker/setup-buildx-action@v2
 
-            - name: Fetch metadata
-              id: metadata
-              uses: docker/metadata-action@v4
-              with:
-                images: ghcr.io/shadowsocks/ssserver-rust
-
             - name: Build image and publish
               uses: docker/build-push-action@v4
               with:
@@ -44,6 +38,6 @@ jobs:
                 file: Proxy/shadowsocks/Dockerfile
                 platforms: linux/amd64,linux/arm64
                 push: true
-                tags: ghcr.io/resripper/shadowsocks-rust:${{ steps.metadata.outputs.version }}, resripper/shadowsocks-rust:${{ steps.metadata.outputs.version }}
+                tags: ghcr.io/resripper/shadowsocks-rust:v1.15.3, resripper/shadowsocks-rust:v1.15.3
                 cache-from: type=gha
                 cache-to: type=gha,mode=max
