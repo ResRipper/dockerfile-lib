@@ -33,7 +33,7 @@ jobs:
 
             - name: Fetch metadata
               id: metadata
-              uses: docker/metadata-action@v3
+              uses: docker/metadata-action@v4
               with:
                 images: ghcr.io/shadowsocks/ssserver-rust
 
