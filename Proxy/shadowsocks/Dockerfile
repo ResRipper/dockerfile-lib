@@ -23,4 +23,4 @@ LABEL org.opencontainers.image.description='shadowsocks-rust + v2ray'
 
 COPY --from=middle /usr/local/bin/v2ray-plugin /usr/local/bin/v2ray-plugin
 
-ENTRYPOINT ssserver -s ${LISTEN} -m ${ENCRYPT} -k {PASSWD} --plugin ${PLUGIN} --plugin-opts ${PLUGIN_OPT}
+ENTRYPOINT ssserver -s ${LISTEN} -m ${ENCRYPT} -k ${PASSWD} --plugin ${PLUGIN} --plugin-opts ${PLUGIN_OPT}
