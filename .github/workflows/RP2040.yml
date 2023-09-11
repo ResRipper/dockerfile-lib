@@ -10,7 +10,7 @@ jobs:
 
         steps:
             - name: Fetch repo
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
             
             - name: Get date
               run: echo t=$(date +"%Y%m%d") >> $GITHUB_ENV
