@@ -2,7 +2,7 @@ FROM ubuntu:latest AS middle
 
 RUN apt update && apt install -y wget xz-utils
 
-ARG V2RAY_VER=5.13.0
+ARG V2RAY_VER=5.15.1
 
 RUN if [ "$(uname -p)" = "aarch64" ]; \
     then \
@@ -18,7 +18,7 @@ RUN if [ "$(uname -p)" = "x86_64" ]; \
         mv v2ray-plugin_linux_amd64 /usr/local/bin/v2ray-plugin; \
     fi
 
-FROM ghcr.io/shadowsocks/ssserver-rust:v1.17.1 AS server
+FROM ghcr.io/shadowsocks/ssserver-rust:v1.18.2 AS server
 
 LABEL org.opencontainers.image.source="https://github.com/ResRipper/Dockerfile-LIB"
 LABEL org.opencontainers.image.description='shadowsocks-rust + v2ray'
