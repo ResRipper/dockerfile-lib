@@ -1,6 +1,9 @@
 name: Shadowsocks-rust
 
-on: workflow_dispatch
+on:
+  push:
+    paths:
+      - 'Proxy/shadowsocks/Dockerfile'
 
 jobs:
     ss-rust:
