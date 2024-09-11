@@ -36,6 +36,6 @@ jobs:
                 file: Proxy/shadowsocks/Dockerfile
                 platforms: linux/amd64,linux/arm64
                 push: true
-                tags: resripper/shadowsocks-rust:v1.20.2
+                tags: resripper/shadowsocks-rust:v1.20.4
                 cache-from: type=gha
                 cache-to: type=gha,mode=max
