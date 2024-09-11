@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'Proxy/shadowsocks/Dockerfile'
+  workflow_dispatch:
 
 jobs:
     ss-rust:
