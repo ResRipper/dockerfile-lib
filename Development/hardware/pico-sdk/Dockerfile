@@ -17,6 +17,33 @@ RUN mkdir -p /var/pico \
     && cd /var/pico/pico-sdk \
     && git submodule update --init
 
+# Clean-up pico-sdk
+WORKDIR /var/pico/pico-sdk
+
+## Remove junk (document, git...) folders
+RUN (find . -type d -name 'archive' \
+    && find . -type d -name 'docs' \
+    && find . -type d -name 'doc' \
+    && find . -type d -name 'notes' \
+    && find . -type d -name 'example' \
+    && find . -type d -name 'examples' \
+    && find . -type d -name 'example-template' \
+    && find . -type d -name 'test' \
+    && find . -type d -name 'tests' \
+    && find . -type d -name '.git' \
+    && find . -type d -name '.github' \
+    && find . -type d -name '.idea' \
+    && find . -type d -name 'LEScan' \
+    && find . -type d -name 'SPPClient' \
+    ) | xargs rm -rf
+
+## Remove junk files
+RUN (find . -type f -name "*.md" \
+    && find . -type f -name "*.log" \
+    && find . -type f -name "*.pdf" \
+    && find . -type f -name "*.png" \
+    ) | xargs rm
+
 # Clone picotool repo
 RUN git clone --depth 1 -b ${SDK_VER} https://github.com/raspberrypi/picotool.git /var/pico/picotool
 
