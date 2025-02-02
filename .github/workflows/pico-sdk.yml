@@ -6,7 +6,7 @@ env:
   SDK_VER: 2.1.0
 
 jobs:
-    RP2040:
+    pico-sdk:
         runs-on: ubuntu-24.04
         permissions:
             packages: write
