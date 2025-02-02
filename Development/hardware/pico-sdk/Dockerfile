@@ -66,7 +66,7 @@ FROM ubuntu:24.04
 RUN apt update \
     && DEBIAN_FRONTEND=noninteractive \
     apt install -y --no-install-recommends \
-    build-essential ca-certificates cmake g++ gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib \
+    build-essential ca-certificates cmake g++ gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib libusb-1.0-0 \
     && apt clean && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /var/pico
 
