@@ -39,8 +39,8 @@ FROM ubuntu:24.04
 RUN apt update \
     && DEBIAN_FRONTEND=noninteractive \
     apt install -y --no-install-recommends \
-    build-essential ca-certificates cmake g++ gcc-arm-none-eabi git libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib \
-    && apt clean \
+    build-essential ca-certificates cmake g++ gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib \
+    && apt clean && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /var/pico
 
 # Copy pico SDK repo
