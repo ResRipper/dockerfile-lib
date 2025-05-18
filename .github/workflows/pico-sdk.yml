@@ -39,8 +39,8 @@ jobs:
             - name: Build image and publish
               uses: docker/build-push-action@v6
               with:
-                context: Development/hardware/pico-sdk/
-                file: Development/hardware/pico-sdk/Dockerfile
+                context: development/hardware/pico-sdk/
+                file: development/hardware/pico-sdk/dockerfile
                 platforms: linux/amd64,linux/arm64
                 push: true
                 tags: resripper/pico-sdk:${{env.SDK_VER}}, resripper/pico-sdk:latest
