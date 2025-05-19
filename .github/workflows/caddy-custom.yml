@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  CADDY_VER: 5.17.0
+  CADDY_VER: 2.10.0
 
 jobs:
   caddy-custom:
