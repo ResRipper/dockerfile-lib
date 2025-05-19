@@ -10,7 +10,7 @@ env:
   CADDY_VER: 5.17.0
 
 jobs:
-  ss-rust:
+  caddy-custom:
     runs-on: ubuntu-latest
     permissions:
       packages: write
