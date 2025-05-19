@@ -1,9 +1,10 @@
 name: Caddy-custom
 
 on:
-  # push:
-  #   paths:
-  #     - "proxy/caddy-custom/dockerfile"
+  push:
+    paths:
+      - proxy/caddy-custom/dockerfile
+      - .github/workflows/caddy-custom.yml
   workflow_dispatch:
 
 env:
@@ -40,7 +41,7 @@ jobs:
           file: proxy/caddy-custom/dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: resripper/caddy-custom:${{ env.CADDY_VER }}
+          tags: resripper/caddy-custom:${{ env.CADDY_VER }}, resripper/caddy-custom:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
