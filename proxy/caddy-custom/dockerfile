@@ -4,7 +4,8 @@ FROM caddy:${CADDY_VER}-builder-alpine AS builder
 
 RUN xcaddy build \
     --with github.com/caddy-dns/cloudflare \
-    --with github.com/mholt/caddy-l4
+    --with github.com/mholt/caddy-l4 \
+    --with github.com/lucaslorentz/caddy-docker-proxy/v2
 
 FROM caddy:${CADDY_VER}-alpine
 
@@ -12,3 +13,5 @@ LABEL org.opencontainers.image.source="https://github.com/ResRipper/dockerfile-l
 LABEL org.opencontainers.image.description='Caddy with plugins built-in'
 
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
+
+CMD ["caddy", "docker-proxy"]
