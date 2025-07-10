@@ -19,7 +19,7 @@ RUN if [ "$(uname -p)" = "x86_64" ]; \
         mv v2ray-plugin_linux_amd64 /usr/local/bin/v2ray-plugin; \
     fi
 
-FROM ghcr.io/shadowsocks/ssserver-rust:${SS_VER} AS server
+FROM ghcr.io/shadowsocks/ssserver-rust:v${SS_VER} AS server
 
 LABEL org.opencontainers.image.source="https://github.com/ResRipper/dockerfile-lib"
 LABEL org.opencontainers.image.description='shadowsocks-rust + v2ray'
