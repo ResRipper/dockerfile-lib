@@ -1,9 +1,10 @@
 name: Shadowsocks-rust
 
 on:
-  # push:
-  #   paths:
-  #     - "proxy/shadowsocks/dockerfile"
+  push:
+    paths:
+     - "proxy/shadowsocks/dockerfile"
+     - ".github/workflows/shadowsocks-rust.yml"
   workflow_dispatch:
 
 env:
