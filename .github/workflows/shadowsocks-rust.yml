@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 
 env:
-  SS_VER: 1.22.0
-  V2RAY_VER: 5.17.0
+  SS_VER: 1.23.5
+  V2RAY_VER: 5.33.0
 
 jobs:
   ss-rust:
