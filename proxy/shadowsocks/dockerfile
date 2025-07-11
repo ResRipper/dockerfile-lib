@@ -1,6 +1,8 @@
-ARG V2RAY_VER SS_VER
+ARG SS_VER=1.23.4
 
 FROM ubuntu:latest AS middle
+
+ARG V2RAY_VER=5.33.0
 
 RUN apt update && apt install -y wget xz-utils
 
