@@ -1,9 +1,14 @@
 name: Pico-SDK
 
-on: workflow_dispatch
+on:
+  push:
+    paths:
+      - "development/hardware/pico-sdk/dockerfile"
+      - ".github/workflows/pico-sdk.yml"
+  workflow_dispatch:
 
 env:
-  SDK_VER: 2.1.0
+  SDK_VER: 2.1.1
 
 jobs:
     pico-sdk:
