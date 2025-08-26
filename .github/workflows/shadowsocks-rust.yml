@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  SS_VER: 1.23.4
+  SS_VER: 1.23.5
   V2RAY_VER: 5.37.0
 
 jobs:
