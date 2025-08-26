@@ -1,11 +1,14 @@
-ARG CADDY_VER
+ARG CADDY_VER=2.10.2
 
 FROM caddy:${CADDY_VER}-builder-alpine AS builder
 
+ARG MOD_CF=0.2.1
+ARG MOD_DOCKER_PROXY=2.10.0
+
 RUN xcaddy build \
-    --with github.com/caddy-dns/cloudflare \
+    --with github.com/caddy-dns/cloudflare@v${MOD_CF} \
     --with github.com/mholt/caddy-l4 \
-    --with github.com/lucaslorentz/caddy-docker-proxy/v2
+    --with github.com/lucaslorentz/caddy-docker-proxy/v2@v${MOD_DOCKER_PROXY}
 
 FROM caddy:${CADDY_VER}-alpine
 
