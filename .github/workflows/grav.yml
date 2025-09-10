@@ -1,6 +1,10 @@
 name: Grav
 
 on:
+    push:
+        paths:
+            - content/grav/**
+            - .github/workflows/grav.yml
     workflow_dispatch:
 
 env:
@@ -42,7 +46,7 @@ jobs:
                     file: content/grav/grav.dockerfile,
                     platforms: "linux/amd64,linux/arm64",
                     push: true,
-                    tags: "resripper/grav:${{ env.GRAV_VER }}",
+                    tags: "resripper/grav:${{ env.GRAV_VER }},resripper/grav:latest",
                     cache-from: type=gha,
                     cache-to: "type=gha,mode=max",
                     build-args: "ALPINE_VER=${{ env.ALPINE_VER }}\nGRAV_VER=${{ env.GRAV_VER }}"
