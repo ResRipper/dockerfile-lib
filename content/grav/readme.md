@@ -13,6 +13,10 @@ Make sure you created volumes for:
 - /var/www/html/backup
 - /var/www/html/logs
 
+## Environment variables
+
+- `CHOWN`: Set the `user/`, `backup/` and `logs/` folders to be owned by the internal `www-data` user. `true` by default.
+
 ## Example docker-compose.yml
 
 ```yaml
