@@ -15,8 +15,10 @@ RUN unzip grav-admin.zip && mv grav-admin html
 WORKDIR /var/www/html
 RUN rm -rf webserver-configs/ ./*.md
 
+RUN mkdir ../user_resources && mv user/* ../user_resources
+
 # Create user www-data
-RUN adduser -S www-data -G www-data
+RUN adduser -u 82 -s /bin/sh -S www-data -G www-data
 
 # Create cron job for Grav maintenance scripts
 RUN (crontab -l; echo "* * * * * cd /var/www/html;php bin/grav scheduler 1>> /dev/null 2>&1") \
@@ -50,13 +52,14 @@ COPY php_conf/www.conf /etc/php/php-fpm.d/www.conf
 COPY php_conf/docker.conf /etc/php/php-fpm.d/docker.conf
 
 # Create user www-data
-RUN adduser -S www-data -G www-data
+RUN adduser -u 82 -s /bin/sh -S www-data -G www-data
 
 # Clean-up
 RUN rm -rf \
     /var/cache/apk/* \
     /tmp/* \
-    /usr/src/*
+    /usr/src/* \
+    /etc/caddy/*
 
 
 # Release image
@@ -74,14 +77,13 @@ COPY --from=builder / /
 
 COPY --from=configurator --chown=www-data:www-data /etc/crontabs/www-data /etc/crontabs/www-data
 COPY --from=configurator --chown=www-data:www-data /var/www/html /var/www/html
+COPY --from=configurator --chown=www-data:www-data /var/www/user_resources /var/www/user_resources
 
 COPY Caddyfile /etc/caddy/Caddyfile
 COPY --chown=www-data:www-data run.sh /run.sh
 
 # Change home directory's ownership
 RUN chown -R www-data:www-data /home/www-data
-
-USER www-data
 
 EXPOSE 80
 
