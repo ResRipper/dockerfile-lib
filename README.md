@@ -1,9 +1,5 @@
 # Dockerfiles
 
-## Dev
-
-- [pico-sdk](development/hardware/pico-sdk/dockerfile)[![Pico-SDK](https://github.com/ResRipper/dockerfile-lib/actions/workflows/pico-sdk.yml/badge.svg)](https://github.com/ResRipper/dockerfile-lib/actions/workflows/pico-sdk.yml)
-
 ## Proxy
 
 - [Shadowsocks-rust](proxy/shadowsocks/dockerfile)[![Shadowsocks-rust](https://github.com/ResRipper/dockerfile-lib/actions/workflows/shadowsocks-rust.yml/badge.svg)](https://github.com/ResRipper/dockerfile-lib/actions/workflows/shadowsocks-rust.yml)
