@@ -8,7 +8,7 @@ on:
     workflow_dispatch:
 
 env:
-    ALPINE_VER: 3.22.1
+    ALPINE_VER: 3.22.2
     GRAV_VER: 1.7.49.5
 
 jobs:
