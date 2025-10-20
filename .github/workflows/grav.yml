@@ -8,8 +8,8 @@ on:
     workflow_dispatch:
 
 env:
-    ALPINE_VER: 3.22.2
-    GRAV_VER: 1.7.49.5
+    ALPINE_VER: latest
+    GRAV_VER: 1.7.50
 
 jobs:
     grav:
@@ -46,10 +46,16 @@ jobs:
                     file: content/grav/grav.dockerfile,
                     platforms: "linux/amd64,linux/arm64",
                     push: true,
-                    tags: "resripper/grav:${{ env.GRAV_VER }},resripper/grav:latest",
+                    tags: "
+                        resripper/grav:${{ env.GRAV_VER }},
+                        resripper/grav:latest
+                    ",
                     cache-from: type=gha,
                     cache-to: "type=gha,mode=max",
-                    build-args: "ALPINE_VER=${{ env.ALPINE_VER }}\nGRAV_VER=${{ env.GRAV_VER }}"
+                    build-args: "
+                        ALPINE_VER=${{ env.ALPINE_VER }}\n
+                        GRAV_VER=${{ env.GRAV_VER }}
+                    "
                 }
             }
         ]
