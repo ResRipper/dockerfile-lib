@@ -1,20 +1,45 @@
 ARG CADDY_VER=2.10.2
 
+# Build
 FROM caddy:${CADDY_VER}-builder-alpine AS builder
 
 ARG MOD_CF=0.2.1
 ARG MOD_DOCKER_PROXY=2.10.0
 
+# Create data/config directory
+RUN mkdir -p \
+    /config/caddy \
+    /data/caddy
+
 RUN xcaddy build \
     --with github.com/caddy-dns/cloudflare@v${MOD_CF} \
     --with github.com/mholt/caddy-l4 \
-    --with github.com/lucaslorentz/caddy-docker-proxy/v2@v${MOD_DOCKER_PROXY}
+    --with github.com/lucaslorentz/caddy-docker-proxy/v2@v${MOD_DOCKER_PROXY} \
+    --output /usr/bin/caddy
 
-FROM caddy:${CADDY_VER}-alpine
+# Construct
+FROM scratch AS release
 
 LABEL org.opencontainers.image.source="https://github.com/ResRipper/dockerfile-lib"
 LABEL org.opencontainers.image.description='Caddy with plugins built-in'
 
+ARG CADDY_VER=2.10.2
+ENV CADDY_VERSION=v${CADDY_VER}
+
+# https://caddyserver.com/docs/conventions#file-locations
+ENV XDG_CONFIG_HOME=/config
+ENV XDG_DATA_HOME=/data
+
+# Copy data/config directory and binary
+COPY --from=builder /data/caddy /data/caddy
+COPY --from=builder /config/caddy /config/caddy
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
 
-CMD ["caddy", "docker-proxy"]
+EXPOSE 80
+EXPOSE 443
+EXPOSE 443/udp
+EXPOSE 2019
+
+VOLUME [ "/data" "/config" ]
+
+ENTRYPOINT ["/usr/bin/caddy", "docker-proxy"]
