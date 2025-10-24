@@ -1,0 +1,20 @@
+services:
+    grav:
+        image: resripper/grav:1.7.50.3
+        labels:
+            caddy: ":8080"
+            caddy.reverse_proxy: "{{upstreams 80}}"
+        networks:
+            - reverse_proxy
+    
+    caddy:
+        image: resripper/caddy-custom:latest
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+        networks:
+            - reverse_proxy
+        ports:
+            - 8080:8080
+
+networks:
+    reverse_proxy:
