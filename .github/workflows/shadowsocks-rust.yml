@@ -3,7 +3,7 @@ name: Shadowsocks-rust
 on:
   push:
     paths:
-      - "proxy/shadowsocks/dockerfile"
+      - "network/shadowsocks/dockerfile"
       - ".github/workflows/shadowsocks-rust.yml"
   workflow_dispatch:
 
@@ -38,11 +38,11 @@ jobs:
       - name: Build image and publish
         uses: docker/build-push-action@v6
         with:
-          context: proxy/shadowsocks
-          file: proxy/shadowsocks/dockerfile
+          context: network/shadowsocks
+          file: network/shadowsocks/dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: resripper/shadowsocks-rust:${{ env.SS_VER }}
+          tags: resripper/shadowsocks-rust:${{ env.SS_VER }}, resripper/shadowsocks-rust:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |

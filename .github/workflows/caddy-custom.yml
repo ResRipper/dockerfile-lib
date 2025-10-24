@@ -3,7 +3,7 @@ name: Caddy-custom
 on:
   push:
     paths:
-      - proxy/caddy-custom/dockerfile
+      - network/caddy-custom/dockerfile
       - .github/workflows/caddy-custom.yml
   workflow_dispatch:
 
@@ -39,8 +39,8 @@ jobs:
       - name: Build image and publish
         uses: docker/build-push-action@v6
         with:
-          context: proxy/caddy-custom
-          file: proxy/caddy-custom/dockerfile
+          context: network/caddy-custom
+          file: network/caddy-custom/dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: resripper/caddy-custom:${{ env.CADDY_VER }}, resripper/caddy-custom:latest
