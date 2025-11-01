@@ -9,7 +9,7 @@ on:
 
 env:
     ALPINE_VER: latest
-    GRAV_VER: 1.7.50.3
+    GRAV_VER: 1.7.50.4
 
 jobs:
     grav:
