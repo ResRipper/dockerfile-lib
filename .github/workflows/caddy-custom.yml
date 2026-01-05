@@ -9,7 +9,7 @@ on:
 
 env:
   CADDY_VER: 2.10.2
-  MOD_CF: 0.2.1
+  MOD_CF: 0.2.2
   MOD_DOCKER_PROXY: 2.10.0
 
 jobs:
