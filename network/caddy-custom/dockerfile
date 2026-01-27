@@ -15,6 +15,11 @@ RUN xcaddy build \
     --with github.com/caddy-dns/cloudflare@v${MOD_CF} \
     --with github.com/mholt/caddy-l4 \
     --with github.com/lucaslorentz/caddy-docker-proxy/v2@v${MOD_DOCKER_PROXY} \
+    --with github.com/fvbommel/caddy-combine-ip-ranges \
+    --with github.com/monobilisim/caddy-ip-list \
+    --with github.com/xcaddyplugins/caddy-trusted-gcp-cloudcdn \
+    --with github.com/xcaddyplugins/caddy-trusted-cloudfront \
+    --with github.com/WeidiDeng/caddy-cloudflare-ip \
     --output /usr/bin/caddy
 
 # Construct
