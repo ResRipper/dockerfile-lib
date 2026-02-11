@@ -6,6 +6,8 @@ on:
             - content/grav/**
             - .github/workflows/grav.yml
     workflow_dispatch:
+    schedule:
+        - cron: '0 0 1 * *'
 
 env:
     ALPINE_VER: latest

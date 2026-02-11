@@ -6,6 +6,8 @@ on:
       - "network/shadowsocks/dockerfile"
       - ".github/workflows/shadowsocks-rust.yml"
   workflow_dispatch:
+  schedule:
+    - cron: '0 0 1 * *'
 
 env:
   SS_VER: 1.24.0

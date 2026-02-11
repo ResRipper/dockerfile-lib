@@ -6,6 +6,8 @@ on:
       - network/caddy-custom/dockerfile
       - .github/workflows/caddy-custom.yml
   workflow_dispatch:
+  schedule:
+    - cron: '0 0 1 * *'
 
 env:
   CADDY_VER: 2.10.2
