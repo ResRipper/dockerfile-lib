@@ -10,6 +10,7 @@ on:
     - cron: '0 0 1 * *'
 
 env:
+  ALPINE_VER: 3.23.3
   CADDY_VER: 2.11.2
   MOD_CF: 0.2.3
   MOD_DOCKER_PROXY: 2.12.0
@@ -38,15 +39,30 @@ jobs:
       - name: Setup Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Build image and publish
+      - name: Build slim image and publish
         uses: docker/build-push-action@v7
         with:
           context: network/caddy-custom
           file: network/caddy-custom/dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: resripper/caddy-custom:${{ env.CADDY_VER }}, resripper/caddy-custom:latest
+          tags: resripper/caddy-custom:${{ env.CADDY_VER }}, resripper/caddy-custom:${{ env.CADDY_VER }}-slim, resripper/caddy-custom:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
             CADDY_VER=${{ env.CADDY_VER }}
+            IMAGE_BASE=scratch
+
+      - name: Build alpine image and publish
+        uses: docker/build-push-action@v7
+        with:
+          context: network/caddy-custom
+          file: network/caddy-custom/dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: resripper/caddy-custom:${{ env.CADDY_VER }}-alpine${{ env.ALPINE_VER }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            CADDY_VER=${{ env.CADDY_VER }}
+            IMAGE_BASE=alpine:${{ env.ALPINE_VER }}

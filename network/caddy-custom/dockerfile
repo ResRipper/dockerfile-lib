@@ -1,4 +1,5 @@
 ARG CADDY_VER=2.10.2
+ARG IMAGE_BASE=scratch
 
 # Build
 FROM caddy:${CADDY_VER}-builder-alpine AS builder
@@ -23,7 +24,7 @@ RUN xcaddy build \
     --output /usr/bin/caddy
 
 # Construct
-FROM scratch AS release
+FROM ${IMAGE_BASE} AS release
 
 LABEL org.opencontainers.image.source="https://github.com/ResRipper/dockerfile-lib"
 LABEL org.opencontainers.image.description='Caddy with plugins built-in'
