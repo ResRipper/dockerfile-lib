@@ -10,7 +10,7 @@ on:
     - cron: '0 0 1 * *'
 
 env:
-  ALPINE_VER: 3.23.4
+  ALPINE_VER: latest
   CADDY_VER: 2.11.3
   MOD_CF: 0.2.4
   MOD_DOCKER_PROXY: 2.12.0
@@ -60,7 +60,7 @@ jobs:
           file: network/caddy-custom/dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: resripper/caddy-custom:${{ env.CADDY_VER }}-alpine${{ env.ALPINE_VER }}
+          tags: resripper/caddy-custom:${{ env.CADDY_VER }}-alpine
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
