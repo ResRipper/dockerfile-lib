@@ -54,11 +54,10 @@ jobs:
             IMAGE_BASE=scratch
 
       - name: Scan image - slim
-        uses: aquasecurity/trivy-action@v0.36.0
+        uses: anchore/scan-action@v7
         with:
-          image-ref: resripper/caddy-custom:${{ env.CADDY_VER }}-slim
-          format: table
-          ignore-unfixed: true
+          image: resripper/caddy-custom:${{ env.CADDY_VER }}-slim
+          fail-build: false
 
       - name: Build alpine image and publish
         uses: docker/build-push-action@v7
@@ -75,8 +74,7 @@ jobs:
             IMAGE_BASE=alpine:${{ env.ALPINE_VER }}
 
       - name: Scan image - alpine
-        uses: aquasecurity/trivy-action@v0.36.0
+        uses: anchore/scan-action@v7
         with:
-          image-ref: resripper/caddy-custom:${{ env.CADDY_VER }}-alpine
-          format: table
-          ignore-unfixed: true
+          image: resripper/caddy-custom:${{ env.CADDY_VER }}-alpine
+          fail-build: false
