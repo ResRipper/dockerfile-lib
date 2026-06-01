@@ -74,6 +74,7 @@ jobs:
                         {
                             image: "resripper/grav:${{ env.GRAV_VER }}",
                             fail-build: false,
+                            only-fixed: true
                         },
                 },
                 {

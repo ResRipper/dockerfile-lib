@@ -64,6 +64,7 @@ jobs:
         with:
           image: resripper/shadowsocks-rust:${{ env.SS_VER }}
           fail-build: false
+          only-fixed: true
 
       - name: Upload scan report
         uses: github/codeql-action/upload-sarif@v4
