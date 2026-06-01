@@ -18,3 +18,8 @@ jobs:
         uses: ./.github/workflows/grav.yml
         with:
             push: true
+
+    shadowsocks-rust:
+        uses: ./.github/workflows/shadowsocks-rust.yml
+        with:
+            push: true
