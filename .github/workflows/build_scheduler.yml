@@ -13,3 +13,8 @@ jobs:
         uses: ./.github/workflows/caddy-custom.yml
         with:
             push: true
+
+    grav:
+        uses: ./.github/workflows/grav.yml
+        with:
+            push: true
