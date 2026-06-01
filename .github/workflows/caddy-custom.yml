@@ -51,13 +51,14 @@ jobs:
       - name: Setup Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Build
+      - name: Build (and push)
         uses: docker/build-push-action@v7
         with:
           context: network/caddy-custom
           file: network/caddy-custom/dockerfile
           platforms: linux/amd64,linux/arm64
           tags: resripper/caddy-custom:${{ env.CADDY_VER }}, resripper/caddy-custom:${{ env.CADDY_VER }}-slim, resripper/caddy-custom:latest
+          push: ${{ inputs.push }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
@@ -75,13 +76,6 @@ jobs:
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
-
-      - name: Push image
-        if: ${{ inputs.push }}
-        uses: docker/build-push-action@v7
-        with:
-          tags: resripper/caddy-custom:${{ env.CADDY_VER }}, resripper/caddy-custom:${{ env.CADDY_VER }}-slim, resripper/caddy-custom:latest
-          push: true
 
   caddy-custom-alpine:
     runs-on: ubuntu-latest
@@ -107,13 +101,14 @@ jobs:
       - name: Setup Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Build
+      - name: Build (and push)
         uses: docker/build-push-action@v7
         with:
           context: network/caddy-custom
           file: network/caddy-custom/dockerfile
           platforms: linux/amd64,linux/arm64
           tags: resripper/caddy-custom:${{ env.CADDY_VER }}-alpine
+          push: ${{ inputs.push }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
@@ -131,10 +126,3 @@ jobs:
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
-
-      - name: Push image
-        if: ${{ inputs.push }}
-        uses: docker/build-push-action@v7
-        with:
-          tags: resripper/caddy-custom:${{ env.CADDY_VER }}-alpine
-          push: true
