@@ -58,7 +58,7 @@ jobs:
           file: network/caddy-custom/dockerfile
           platforms: linux/amd64,linux/arm64
           tags: resripper/caddy-custom:${{ env.CADDY_VER }}, resripper/caddy-custom:${{ env.CADDY_VER }}-slim, resripper/caddy-custom:latest
-          push: ${{ inputs.push }}
+          push: ${{ inputs.push == true }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
