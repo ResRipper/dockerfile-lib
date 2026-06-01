@@ -9,10 +9,11 @@
 ```
 docker run \
     --name ss-server \
+    -e LISTEN=0.0.0.0:80
     -e ENCRYPT=chacha20-ietf-poly1305 \
-    -e PASSWD='password' \
-    -e PLUGIN='v2ray-plugin' \
-    -e PLUGIN_OPT='server' \
-    -p 10000:10000 \
+    -e PASSWD=password \
+    -e PLUGIN=v2ray-plugin \
+    -e PLUGIN_OPT=server \
+    -p 80:80 \
     resripper/shadowsocks-rust:latest
 ```
