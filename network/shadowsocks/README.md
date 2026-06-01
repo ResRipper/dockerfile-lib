@@ -9,7 +9,7 @@
 ```
 docker run \
     --name ss-server \
-    -e LISTEN=0.0.0.0:80
+    -e LISTEN=0.0.0.0:80 \
     -e ENCRYPT=chacha20-ietf-poly1305 \
     -e PASSWD=password \
     -e PLUGIN=v2ray-plugin \
