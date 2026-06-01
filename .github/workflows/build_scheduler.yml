@@ -1,0 +1,15 @@
+# Copyright 2026 ResRipper.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Build-scheduler
+
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: "0 0 1 * *"
+
+jobs:
+    caddy-custom:
+        uses: ./.github/workflows/caddy-custom.yml
+        with:
+            push: true

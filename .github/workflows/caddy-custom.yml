@@ -6,8 +6,19 @@ on:
       - network/caddy-custom/dockerfile
       - .github/workflows/caddy-custom.yml
   workflow_dispatch:
-  schedule:
-    - cron: '0 0 1 * *'
+    inputs:
+      push:
+        description: Push image to registry
+        required: true
+        type: boolean
+        default: false
+  workflow_call:
+    inputs:
+      push:
+        description: Push image to registry
+        required: true
+        type: boolean
+        default: false
 
 env:
   ALPINE_VER: latest
@@ -45,7 +56,6 @@ jobs:
           context: network/caddy-custom
           file: network/caddy-custom/dockerfile
           platforms: linux/amd64,linux/arm64
-          push: true
           tags: resripper/caddy-custom:${{ env.CADDY_VER }}, resripper/caddy-custom:${{ env.CADDY_VER }}-slim, resripper/caddy-custom:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -60,6 +70,7 @@ jobs:
           fail-build: false
 
       - name: Push image
+        if: ${{ inputs.push }}
         uses: docker/build-push-action@v7
         with:
           tags: resripper/caddy-custom:${{ env.CADDY_VER }}, resripper/caddy-custom:${{ env.CADDY_VER }}-slim, resripper/caddy-custom:latest
@@ -94,7 +105,6 @@ jobs:
           context: network/caddy-custom
           file: network/caddy-custom/dockerfile
           platforms: linux/amd64,linux/arm64
-          push: true
           tags: resripper/caddy-custom:${{ env.CADDY_VER }}-alpine
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -109,6 +119,7 @@ jobs:
           fail-build: false
 
       - name: Push image
+        if: ${{ inputs.push }}
         uses: docker/build-push-action@v7
         with:
           tags: resripper/caddy-custom:${{ env.CADDY_VER }}-alpine
