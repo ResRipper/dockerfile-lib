@@ -57,7 +57,7 @@ jobs:
                                 resripper/grav:${{ env.GRAV_VER }},
                                 resripper/grav:latest
                                 ",
-                            push: "${{ inputs.push }}",
+                            push: "${{ inputs.push == true }}",
                             cache-from: type=gha,
                             cache-to: "type=gha,mode=max",
                             build-args: "
