@@ -3,8 +3,8 @@ name: Shadowsocks-rust
 on:
   push:
     paths:
-      - "network/shadowsocks/dockerfile"
-      - ".github/workflows/shadowsocks-rust.yml"
+      - network/shadowsocks/dockerfile
+      - .github/workflows/shadowsocks-rust.yml
   workflow_dispatch:
     inputs:
       push:
