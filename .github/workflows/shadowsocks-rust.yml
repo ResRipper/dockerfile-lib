@@ -73,7 +73,7 @@ jobs:
 
       - name: List image
         run: |
-          docker image list \
+          docker image ls
           docker image inspect resripper/shadowsocks-rust:latest
 
       - name: Scan image
