@@ -57,6 +57,7 @@ jobs:
 
       - name: Build image (and publish)
         uses: docker/build-push-action@v7
+        id: image-builder
         with:
           context: network/shadowsocks
           file: network/shadowsocks/dockerfile
@@ -74,7 +75,7 @@ jobs:
         id: scan
         uses: anchore/scan-action@v7
         with:
-          image: "resripper/shadowsocks-rust:latest"
+          image: ${{ steps.image-builder.outputs.digest }}
           fail-build: false
           only-fixed: true
 
