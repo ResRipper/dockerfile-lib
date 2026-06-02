@@ -71,6 +71,11 @@ jobs:
             SS_VER=${{ env.SS_VER }}
             V2RAY_VER=${{ env.V2RAY_VER }}
 
+      - name: List image
+        run: |
+          docker image list \
+          docker image inspect resripper/shadowsocks-rust:latest
+
       - name: Scan image
         id: scan
         uses: anchore/scan-action@v7
