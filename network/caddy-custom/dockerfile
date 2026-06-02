@@ -46,6 +46,6 @@ EXPOSE 443
 EXPOSE 443/udp
 EXPOSE 2019
 
-VOLUME [ "/data" "/config" ]
+VOLUME [ "/data", "/config" ]
 
 ENTRYPOINT ["/usr/bin/caddy", "docker-proxy"]
