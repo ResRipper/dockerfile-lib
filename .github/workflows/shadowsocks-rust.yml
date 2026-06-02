@@ -74,7 +74,7 @@ jobs:
         id: scan
         uses: anchore/scan-action@v7
         with:
-          image: resripper/shadowsocks-rust:${{ env.SS_VER }}
+          image: "resripper/shadowsocks-rust:latest"
           fail-build: false
           only-fixed: true
 
