@@ -1,27 +1,33 @@
-ARG SS_VER=1.23.4
+FROM rust:alpine AS ss-builder
+ARG SS_VER=1.24.0
+WORKDIR /build
+RUN cargo install --root /build shadowsocks-rust@${SS_VER}
 
-FROM ubuntu:latest AS middle
+FROM golang:1 AS v2-builder
+ARG V2RAY_VER=5.49.0
 
-ARG V2RAY_VER=5.33.0
-
-RUN apt update && apt install -y wget xz-utils
-
+WORKDIR /build
 RUN <<-EOR
-    ARCH="$(uname -m)"
-    case ${ARCH} in
-        "aarch64") ARCH=arm64 ;;
-        "x86_64") ARCH=amd64 ;;
-    esac
-    wget -O v2ray-plugin.tar.gz https://github.com/teddysun/v2ray-plugin/releases/download/v${V2RAY_VER}/v2ray-plugin-linux-${ARCH}-v${V2RAY_VER}.tar.gz
-    tar -xf v2ray-plugin.tar.gz && rm v2ray-plugin.tar.gz
-    mv v2ray-plugin_linux_${ARCH} /usr/local/bin/v2ray-plugin
+    apt update && apt install -y git musl-tools bash-static
+    git clone --branch=v${V2RAY_VER} https://github.com/teddysun/v2ray-plugin && cd v2ray-plugin
+    LDFLAGS="-linkmode external -extldflags '-static' -X main.VERSION=v${V2RAY_VER} -s -w -buildid="
+    GOPROXY=https://goproxy.cn CC=musl-gcc go build \
+    -trimpath -buildmode=pie -mod=readonly \
+    -ldflags "${LDFLAGS}"
 EOR
 
-FROM ghcr.io/shadowsocks/ssserver-rust:v${SS_VER} AS server
+FROM scratch AS server
 
 LABEL org.opencontainers.image.source="https://github.com/ResRipper/dockerfile-lib"
 LABEL org.opencontainers.image.description='shadowsocks-rust + v2ray'
 
-COPY --from=middle /usr/local/bin/v2ray-plugin /usr/local/bin/v2ray-plugin
+COPY --from=ss-builder /build/bin/sslocal /usr/bin/sslocal
+COPY --from=ss-builder /build/bin/ssmanager /usr/bin/ssmanager
+COPY --from=ss-builder /build/bin/ssserver /usr/bin/ssserver
+COPY --from=ss-builder /build/bin/ssservice /usr/bin/ssservice
+COPY --from=ss-builder /build/bin/ssurl /usr/bin/ssurl
 
-ENTRYPOINT ssserver -s ${LISTEN} -m ${ENCRYPT} -k ${PASSWD} --plugin ${PLUGIN} --plugin-opts ${PLUGIN_OPT}
+COPY --from=v2-builder /build/v2ray-plugin/v2ray-plugin /usr/bin/v2ray-plugin
+COPY --from=v2-builder /usr/bin/bash-static /usr/bin/bash
+
+ENTRYPOINT [ "/usr/bin/bash", "-c", "/usr/bin/ssserver -s $LISTEN -m $ENCRYPT -k $PASSWD --plugin $PLUGIN --plugin-opts $PLUGIN_OPT" ]
