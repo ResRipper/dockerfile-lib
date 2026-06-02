@@ -12,8 +12,7 @@ RUN <<-EOR
     apt update && apt install -y git musl-tools bash-static
     git clone --branch=v${V2RAY_VER} https://github.com/teddysun/v2ray-plugin && cd v2ray-plugin
     LDFLAGS="-linkmode external -extldflags '-static' -X main.VERSION=v${V2RAY_VER} -s -w -buildid="
-    GOPROXY=https://goproxy.cn CC=musl-gcc go build \
-    -trimpath -buildmode=pie -mod=readonly \
+    CC=musl-gcc go build -trimpath -buildmode=pie -mod=readonly \
     -ldflags "${LDFLAGS}"
 EOR
 
