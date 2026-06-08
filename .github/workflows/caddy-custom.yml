@@ -22,7 +22,7 @@ on:
 
 env:
   ALPINE_VER: latest
-  CADDY_VER: 2.11.3
+  CADDY_VER: 2.11.4
   MOD_CF: 0.2.4
   MOD_DOCKER_PROXY: 2.12.1
 
