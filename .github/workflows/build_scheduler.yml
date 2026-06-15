@@ -5,6 +5,10 @@ name: Build-scheduler
 
 on:
     workflow_dispatch:
+        inputs:
+            push:
+                type: boolean
+                default: false
     # schedule:
     #     - cron: "0 0 1 * *"
 
@@ -35,14 +39,25 @@ jobs:
             image: ${{ matrix.image }}
             tag: ${{ matrix.tag }}
             build_args: ${{ matrix.build_args }}
-            push: true
+            push: ${{ inputs.push == true }}
+
+    read_output:
+        runs-on: ubuntu-latest
+        needs: [builder]
+        steps:
+            -   uses: cloudposse/github-action-matrix-outputs-read@v1
+                id: build_output
+                with:
+                    matrix-step-name: build
+        outputs:
+            result: ${{ steps.build_output.outputs.result }}
 
     scanner:
-        needs: builder
+        needs: [read_output]
         strategy:
             fail-fast: true
             matrix:
-                image: ${{ needs.builder.outputs.* }}
+                image: ${{ needs.read_output.outputs.result.image.* }}
         uses: ./.github/workflows/scanner.yml
         with:
             image: ${{ matrix.image }}
