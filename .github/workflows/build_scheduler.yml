@@ -22,6 +22,8 @@ jobs:
     shadowsocks-rust:
         runs-on: ubuntu-latest
         steps:
+            -   name: Fetch repo
+                uses: actions/checkout@v6
             -   name: Build and push
                 id: build
                 uses: ./.github/workflows/shadowsocks-rust.yml
