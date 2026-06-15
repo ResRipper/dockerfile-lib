@@ -90,7 +90,16 @@ jobs:
                     cache-to: type=gha,mode=max
 
             -   name: Scan image
+                id: scan
                 if: ${{ inputs.scan == true }}
-                uses: ./.github/workflows/scanner.yml
+                uses: anchore/scan-action@v7
                 with:
                     image: resripper/${{ inputs.image }}:${{ inputs.tag }}
+                    fail-build: false
+                    only-fixed: true
+
+            -   name: Upload scan report
+                if: ${{ inputs.scan == true }}
+                uses: github/codeql-action/upload-sarif@v4
+                with:
+                    sarif_file: ${{ steps.scan.outputs.sarif }}
