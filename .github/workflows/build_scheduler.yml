@@ -9,17 +9,25 @@ on:
     #     - cron: "0 0 1 * *"
 
 jobs:
-    caddy-custom:
-        uses: ./.github/workflows/caddy-custom.yml
-        with:
-            push: true
+    # caddy-custom:
+    #     uses: ./.github/workflows/caddy-custom.yml
+    #     with:
+    #         push: true
 
-    grav:
-        uses: ./.github/workflows/grav.yml
-        with:
-            push: true
+    # grav:
+    #     uses: ./.github/workflows/grav.yml
+    #     with:
+    #         push: true
 
     shadowsocks-rust:
-        uses: ./.github/workflows/shadowsocks-rust.yml
-        with:
-            push: true
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Build and push
+                id: build
+                uses: ./.github/workflows/shadowsocks-rust.yml
+                with:
+                    push: true
+            -   name: Scan
+                uses: ./.github/workflows/scanner.yml
+                with:
+                    image: ${{ steps.build.outputs.tag }}

@@ -1,0 +1,35 @@
+# Copyright 2026 ResRipper.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Vulnerability Scanner
+
+on:
+    workflow_dispatch:
+        inputs:
+            image:
+                description: Tag of the target image
+                required: true
+                type: string
+    workflow_call:
+        inputs:
+            image:
+                description: Tag of the target image
+                required: true
+                type: string
+
+jobs:
+    scanner:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Scan image
+                id: scan
+                uses: anchore/scan-action@v7
+                with:
+                    image: ${{ inputs.image }}
+                    fail-build: false
+                    only-fixed: true
+
+            -   name: Upload scan report
+                uses: github/codeql-action/upload-sarif@v4
+                with:
+                    sarif_file: ${{ steps.scan.outputs.sarif }}
