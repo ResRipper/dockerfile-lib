@@ -21,7 +21,6 @@ on:
             build_args:
                 description: Docker build args
                 type: string
-                required: true
                 default: ''
             latest:
                 description: Build as latest tag
@@ -29,12 +28,10 @@ on:
                 default: true
             push:
                 description: Push image to registry
-                required: true
                 type: boolean
                 default: false
             scan:
                 description: Scan image for vulnerabilities
-                required: true
                 type: boolean
                 default: false
     workflow_call:
@@ -54,7 +51,6 @@ on:
             build_args:
                 description: Docker build args
                 type: string
-                required: true
                 default: ''
             latest:
                 description: Build as latest tag
@@ -62,12 +58,10 @@ on:
                 default: true
             push:
                 description: Push image to registry
-                required: true
                 type: boolean
                 default: false
             scan:
                 description: Scan image for vulnerabilities
-                required: true
                 type: boolean
                 default: false
 

@@ -12,12 +12,10 @@ on:
         inputs:
             push:
                 description: Push image to registry
-                required: true
                 type: boolean
                 default: false
             scan:
                 description: Scan image for vulnerabilities
-                required: true
                 type: boolean
                 default: false
 
