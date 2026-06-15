@@ -67,6 +67,8 @@ jobs:
 
             -   name: Build image (and push)
                 uses: docker/build-push-action@v7
+                env:
+                    DOCKER_BUILD_RECORD_UPLOAD: false
                 with:
                     context: ${{ inputs.image }}
                     file: ${{ inputs.image }}/dockerfile
