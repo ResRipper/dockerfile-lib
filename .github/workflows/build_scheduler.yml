@@ -22,6 +22,8 @@ jobs:
         strategy:
             fail-fast: true
             matrix:
+                platform:
+                    -   linux/amd64,linux/arm64
                 include:
                     -   image: shadowsocks-rust
                         tag: 1.24.0
@@ -57,6 +59,7 @@ jobs:
         with:
             image: ${{ matrix.image }}
             tag: ${{ matrix.tag }}
+            platform: ${{ matrix.platform }}
             build_args: ${{ matrix.build_args }}
             push: ${{ inputs.push == true }}
             scan: ${{ inputs.scan == true }}
