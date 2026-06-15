@@ -86,4 +86,7 @@ jobs:
                     matrix-step-name: build
                     matrix-key: ${{ inputs.image }}
                     outputs: |-
-                        image: ${{ inputs.image }}:${{ inputs.tag }}
+                        image: resripper/${{ inputs.image }}:${{ inputs.tag }}
+
+        outputs:
+            image: ${{ fromJson(steps.image_info.outputs.result).image }}

@@ -41,23 +41,8 @@ jobs:
             build_args: ${{ matrix.build_args }}
             push: ${{ inputs.push == true }}
 
-    read_output:
-        runs-on: ubuntu-latest
-        needs: [builder]
-        steps:
-            -   uses: cloudposse/github-action-matrix-outputs-read@v1
-                id: build_output
-                with:
-                    matrix-step-name: build
-        outputs:
-            result: ${{ steps.build_output.outputs.result }}
-
     scanner:
-        needs: [read_output]
-        strategy:
-            fail-fast: true
-            matrix:
-                image: ${{ needs.read_output.outputs.result.image.* }}
+        needs: [builder]
         uses: ./.github/workflows/scanner.yml
         with:
-            image: ${{ matrix.image }}
+            image: ${{ needs.builder.outputs.image }}
