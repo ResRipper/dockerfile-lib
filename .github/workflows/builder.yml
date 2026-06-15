@@ -19,6 +19,10 @@ on:
                 type: string
                 required: true
                 default: ''
+            latest:
+                description: Build as latest tag
+                type: boolean
+                default: true
             push:
                 description: Push image to registry
                 required: true
@@ -44,6 +48,10 @@ on:
                 type: string
                 required: true
                 default: ''
+            latest:
+                description: Build as latest tag
+                type: boolean
+                default: true
             push:
                 description: Push image to registry
                 required: true
@@ -75,6 +83,14 @@ jobs:
             -   name: Setup Buildx
                 uses: docker/setup-buildx-action@v4
 
+            -   name: Set image tags
+                run: |
+                    IMAGE_TAGS="resripper/${{ inputs.image }}:${{ inputs.tag }}"
+                    if [ ${{ inputs.latest }} == true ]; then
+                        IMAGE_TAGS="${IMAGE_TAGS}, resripper/${{ inputs.image }}:latest"
+                    fi
+                    echo IMAGE_TAGS="${IMAGE_TAGS}" >> "$GITHUB_ENV"
+
             -   name: Build image (and push)
                 uses: docker/build-push-action@v7
                 env:
@@ -84,7 +100,7 @@ jobs:
                     file: ${{ inputs.image }}/dockerfile
                     platforms: linux/amd64
                     push: ${{ inputs.push == true }}
-                    tags: resripper/${{ inputs.image }}:${{ inputs.tag }}, resripper/${{ inputs.image }}:latest
+                    tags: ${{ env.IMAGE_TAGS }}
                     build-args: ${{ inputs.build_args }}
                     cache-from: type=gha
                     cache-to: type=gha,mode=max
