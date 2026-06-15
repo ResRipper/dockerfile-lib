@@ -9,6 +9,9 @@ on:
             push:
                 type: boolean
                 default: false
+            scan:
+                type: boolean
+                default: false
     # schedule:
     #     - cron: "0 0 1 * *"
 
@@ -40,9 +43,4 @@ jobs:
             tag: ${{ matrix.tag }}
             build_args: ${{ matrix.build_args }}
             push: ${{ inputs.push == true }}
-
-    scanner:
-        needs: [builder]
-        uses: ./.github/workflows/scanner.yml
-        with:
-            image: ${{ needs.builder.outputs.image }}
+            scan: ${{ inputs.scan == true }}
