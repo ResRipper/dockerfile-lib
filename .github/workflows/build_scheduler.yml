@@ -1,7 +1,7 @@
 # Copyright 2026 ResRipper.
 # SPDX-License-Identifier: Apache-2.0
 
-name: Build-scheduler
+name: Build scheduler
 
 on:
     workflow_dispatch:
