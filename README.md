@@ -2,7 +2,7 @@
 
 ## Network
 
-- [Shadowsocks-rust](proxy/shadowsocks/dockerfile)
+- [Shadowsocks-rust](shadowsocks-rust/dockerfile)
 [![Shadowsocks-rust_image](https://img.shields.io/docker/v/resripper/shadowsocks-rust)](https://hub.docker.com/r/resripper/shadowsocks-rust)
 
 - [Caddy-custom](proxy/caddy-custom/dockerfile)

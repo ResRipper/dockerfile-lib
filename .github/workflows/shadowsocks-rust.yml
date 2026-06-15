@@ -1,65 +1,25 @@
-name: Shadowsocks-rust
+name: CI - Shadowsocks-rust
 
 on:
-  push:
-    paths:
-      - network/shadowsocks/dockerfile
-      - .github/workflows/shadowsocks-rust.yml
-  workflow_dispatch:
-    inputs:
-      push:
-        description: Push image to registry
-        required: true
-        type: boolean
-        default: false
-  workflow_call:
-    inputs:
-      push:
-        description: Push image to registry
-        required: true
-        type: boolean
-        default: false
-
-env:
-  SS_VER: 1.24.0
-  V2RAY_VER: 5.49.0
+    push:
+        paths:
+            - shadowsocks-rust/dockerfile
+            - .github/workflows/shadowsocks-rust.yml
+    workflow_dispatch:
+        inputs:
+            push:
+                description: Push image to registry
+                required: true
+                type: boolean
+                default: false
 
 jobs:
-  ss-rust:
-    runs-on: ubuntu-latest
-    outputs:
-      tag: ${{ steps.print_tag.outputs.tag }}
-
-    steps:
-      - name: Fetch repo
-        uses: actions/checkout@v6
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v4
+    build:
+        uses: ./.github/workflows/builder.yml
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Setup QEMU
-        uses: docker/setup-qemu-action@v4
-
-      - name: Setup Buildx
-        uses: docker/setup-buildx-action@v4
-
-      - name: Build image (and push)
-        uses: docker/build-push-action@v7
-        with:
-          context: network/shadowsocks
-          file: network/shadowsocks/dockerfile
-          platforms: linux/amd64,linux/arm64
-          push: ${{ inputs.push == true }}
-          tags: resripper/shadowsocks-rust:${{ env.SS_VER }}, resripper/shadowsocks-rust:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          build-args: |
-            SS_VER=${{ env.SS_VER }}
-            V2RAY_VER=${{ env.V2RAY_VER }}
-
-      - name: Output tag name
-        id: print_tag
-        run: echo "tag=resripper/shadowsocks-rust:${{ env.SS_VER }}" >> "$GITHUB_OUTPUT"
+            image: shadowsocks-rust
+            tag: 1.24.0
+            build_args: |
+                SS_VER=1.24.0
+                V2RAY_VER=5.49.0
+            push: false

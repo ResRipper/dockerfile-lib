@@ -1,0 +1,81 @@
+# Copyright 2026 ResRipper.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Builder
+
+on:
+    workflow_dispatch:
+        inputs:
+            image:
+                description: Target image to be build
+                type: string
+                required: true
+            tag:
+                description: Image tag
+                type: string
+                required: true
+            build_args:
+                description: Docker build args
+                type: string
+                required: true
+                default: ''
+            push:
+                description: Push image to registry
+                required: true
+                type: boolean
+                default: false
+    workflow_call:
+        inputs:
+            image:
+                description: Target image to be build
+                type: string
+                required: true
+            tag:
+                description: Image tag
+                type: string
+                required: true
+            build_args:
+                description: Docker build args
+                type: string
+                required: true
+                default: ''
+            push:
+                description: Push image to registry
+                required: true
+                type: boolean
+                default: false
+
+jobs:
+    builder:
+        name: Build - ${{ inputs.image }}:${{ inputs.tag }}
+        runs-on: ubuntu-latest
+        outputs:
+            image: ${{ inputs.image }}:${{ inputs.tag }}
+        
+        steps:
+            -   name: Fetch repo
+                uses: actions/checkout@v6
+
+            -   name: Login to Docker Hub
+                uses: docker/login-action@v4
+                with:
+                    username: ${{ secrets.DOCKERHUB_USERNAME }}
+                    password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+            -   name: Setup QEMU
+                uses: docker/setup-qemu-action@v4
+
+            -   name: Setup Buildx
+                uses: docker/setup-buildx-action@v4
+
+            -   name: Build image (and push)
+                uses: docker/build-push-action@v7
+                with:
+                    context: ${{ inputs.image }}
+                    file: ${{ inputs.image }}/dockerfile
+                    platforms: linux/amd64
+                    push: ${{ inputs.push == true }}
+                    tags: resripper/${{ inputs.image }}:${{ inputs.tag }}, resripper/${{ inputs.image }}:latest
+                    build-args: ${{ inputs.build_args }}
+                    cache-from: type=gha
+                    cache-to: type=gha,mode=max

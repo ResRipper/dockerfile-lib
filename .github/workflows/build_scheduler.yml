@@ -19,17 +19,29 @@ jobs:
     #     with:
     #         push: true
 
-    shadowsocks-rust:
-        runs-on: ubuntu-latest
-        steps:
-            -   name: Fetch repo
-                uses: actions/checkout@v6
-            -   name: Build and push
-                id: build
-                uses: ./.github/workflows/shadowsocks-rust.yml
-                with:
-                    push: true
-            -   name: Scan
-                uses: ./.github/workflows/scanner.yml
-                with:
-                    image: ${{ steps.build.outputs.tag }}
+    builder:
+        strategy:
+            fail-fast: true
+            matrix:
+                include:
+                    -   image: shadowsocks-rust
+                        tag: 1.24.0
+                        build_args: |
+                            SS_VER=1.24.0
+                            V2RAY_VER=5.49.0
+        uses: ./.github/workflows/builder.yml
+        with:
+            image: ${{ matrix.image }}
+            tag: ${{ matrix.tag }}
+            build_args: ${{ matrix.build_args }}
+            push: true
+
+    scanner:
+        needs: builder
+        strategy:
+            fail-fast: true
+            matrix:
+                image: ${{ needs.builder.outputs.* }}
+        uses: ./.github/workflows/scanner.yml
+        with:
+            image: ${{ matrix.image }}
