@@ -48,13 +48,11 @@ jobs:
 
       - name: Build image (and push)
         uses: docker/build-push-action@v7
-        id: image-builder
         with:
           context: network/shadowsocks
           file: network/shadowsocks/dockerfile
           platforms: linux/amd64,linux/arm64
           push: ${{ inputs.push == true }}
-          load: true
           tags: resripper/shadowsocks-rust:${{ env.SS_VER }}, resripper/shadowsocks-rust:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
