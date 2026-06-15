@@ -1,9 +1,12 @@
-name: Grav
+# Copyright 2026 ResRipper.
+# SPDX-License-Identifier: Apache-2.0
+
+name: CI - Grav
 
 on:
     push:
         paths:
-            - content/grav/**
+            - grav/**
             - .github/workflows/grav.yml
     workflow_dispatch:
         inputs:
@@ -12,74 +15,21 @@ on:
                 required: true
                 type: boolean
                 default: false
-    workflow_call:
-        inputs:
-            push:
-                description: Push image to registry
+            scan:
+                description: Scan image for vulnerabilities
                 required: true
                 type: boolean
                 default: false
 
-env:
-    ALPINE_VER: latest
-    GRAV_VER: 1.7.52
-
 jobs:
-    grav:
-        runs-on: ubuntu-latest
-        steps:
-            [
-                {
-                    name: Fetch repo,
-                    uses: actions/checkout@v6,
-                    with: { token: "${{ secrets.PAT }}" },
-                },
-                {
-                    name: "Login to Docker Hub",
-                    uses: docker/login-action@v4,
-                    with:
-                        {
-                            username: "${{ secrets.DOCKERHUB_USERNAME }}",
-                            password: "${{ secrets.DOCKERHUB_TOKEN }}",
-                        },
-                },
-                { name: "Setup QEMU", uses: docker/setup-qemu-action@v4 },
-                { name: "Setup Buildx", uses: docker/setup-buildx-action@v4 },
-                {
-                    name: "Build",
-                    uses: docker/build-push-action@v7,
-                    with:
-                        {
-                            context: content/grav,
-                            file: content/grav/grav.dockerfile,
-                            platforms: "linux/amd64,linux/arm64",
-                            tags: "
-                                resripper/grav:${{ env.GRAV_VER }},
-                                resripper/grav:latest
-                                ",
-                            push: "${{ inputs.push == true }}",
-                            cache-from: type=gha,
-                            cache-to: "type=gha,mode=max",
-                            build-args: "
-                                ALPINE_VER=${{ env.ALPINE_VER }}\n
-                                GRAV_VER=${{ env.GRAV_VER }}
-                                ",
-                        },
-                },
-                {
-                    name: "Scan image",
-                    id: "scan",
-                    uses: anchore/scan-action@v7,
-                    with:
-                        {
-                            image: "resripper/grav:${{ env.GRAV_VER }}",
-                            fail-build: false,
-                            only-fixed: true
-                        },
-                },
-                {
-                    name: Upload scan report,
-                    uses: github/codeql-action/upload-sarif@v4,
-                    with: { sarif_file: "${{ steps.scan.outputs.sarif }}" },
-                },
-            ]
+    build:
+        uses: ./.github/workflows/builder.yml
+        secrets: inherit
+        with:
+            image: grav
+            tag: 1.7.52
+            build_args: |
+                ALPINE_VER=latest
+                GRAV_VER=1.7.52
+            push: ${{ inputs.push == true }}
+            scan: ${{ inputs.scan == true }}

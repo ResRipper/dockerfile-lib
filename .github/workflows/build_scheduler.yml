@@ -8,24 +8,16 @@ on:
         inputs:
             push:
                 type: boolean
-                default: false
+                required: true
+                default: true
             scan:
                 type: boolean
-                default: false
-    # schedule:
-    #     - cron: "0 0 1 * *"
+                required: true
+                default: true
+    schedule:
+        - cron: 0 0 * * 5
 
 jobs:
-    # caddy-custom:
-    #     uses: ./.github/workflows/caddy-custom.yml
-    #     with:
-    #         push: true
-
-    # grav:
-    #     uses: ./.github/workflows/grav.yml
-    #     with:
-    #         push: true
-
     builder:
         strategy:
             fail-fast: true
@@ -36,6 +28,29 @@ jobs:
                         build_args: |
                             SS_VER=1.24.0
                             V2RAY_VER=5.49.0
+
+                    -   image: grav
+                        tag: 1.7.52
+                        build_args: |
+                            ALPINE_VER=latest
+                            GRAV_VER=1.7.52
+
+                    -   image: caddy-custom
+                        tag: 2.11.4
+                        build_args: |
+                            IMAGE_BASE=scratch
+                            CADDY_VER=2.11.4
+                            MOD_CF=0.2.4
+                            MOD_DOCKER_PROXY=2.12.1
+
+                    -   image: caddy-custom
+                        tag: 2.11.4-alpine
+                        build_args: |
+                            IMAGE_BASE=alpine:latest
+                            CADDY_VER=2.11.4
+                            MOD_CF=0.2.4
+                            MOD_DOCKER_PROXY=2.12.1
+
         uses: ./.github/workflows/builder.yml
         secrets: inherit
         with:

@@ -1,3 +1,6 @@
+# Copyright 2026 ResRipper.
+# SPDX-License-Identifier: Apache-2.0
+
 name: CI - Shadowsocks-rust
 
 on:
@@ -12,6 +15,11 @@ on:
                 required: true
                 type: boolean
                 default: false
+            scan:
+                description: Scan image for vulnerabilities
+                required: true
+                type: boolean
+                default: false
 
 jobs:
     build:
@@ -23,4 +31,5 @@ jobs:
             build_args: |
                 SS_VER=1.24.0
                 V2RAY_VER=5.49.0
-            push: false
+            push: ${{ inputs.push == true }}
+            scan: ${{ inputs.scan == true }}
