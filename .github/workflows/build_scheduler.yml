@@ -30,10 +30,10 @@ jobs:
                             V2RAY_VER=5.49.0
 
                     -   image: grav
-                        tag: 1.7.52
+                        tag: 1.7.53
                         build_args: |
                             ALPINE_VER=latest
-                            GRAV_VER=1.7.52
+                            GRAV_VER=1.7.53
 
                     -   image: caddy-custom
                         tag: 2.11.4
