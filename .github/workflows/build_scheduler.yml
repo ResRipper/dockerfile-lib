@@ -41,7 +41,7 @@ jobs:
                             IMAGE_BASE=scratch
                             CADDY_VER=2.11.4
                             MOD_CF=0.2.4
-                            MOD_DOCKER_PROXY=2.12.1
+                            MOD_DOCKER_PROXY=2.13.0
 
                     -   image: caddy-custom
                         tag: 2.11.4-alpine
@@ -50,7 +50,7 @@ jobs:
                             IMAGE_BASE=alpine:latest
                             CADDY_VER=2.11.4
                             MOD_CF=0.2.4
-                            MOD_DOCKER_PROXY=2.12.1
+                            MOD_DOCKER_PROXY=2.13.0
 
         uses: ./.github/workflows/builder.yml
         secrets: inherit

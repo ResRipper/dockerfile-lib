@@ -30,7 +30,7 @@ jobs:
                 IMAGE_BASE=scratch
                 CADDY_VER=2.11.4
                 MOD_CF=0.2.4
-                MOD_DOCKER_PROXY=2.12.1
+                MOD_DOCKER_PROXY=2.13.0
             push: ${{ inputs.push == true }}
             scan: ${{ inputs.scan == true }}
 
@@ -44,6 +44,6 @@ jobs:
                 IMAGE_BASE=alpine:latest
                 CADDY_VER=2.11.4
                 MOD_CF=0.2.4
-                MOD_DOCKER_PROXY=2.12.1
+                MOD_DOCKER_PROXY=2.13.0
             push: ${{ inputs.push == true }}
             scan: ${{ inputs.scan == true }}
