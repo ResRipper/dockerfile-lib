@@ -114,10 +114,7 @@ jobs:
 
             -   name: Scan image
                 id: scan
-                run: ${{ steps.grype.outputs.cmd }} -v \
-                    --only-fixed \
-                    --output table \
-                    resripper/shadowsocks-rust:test
+                run: ${{ steps.grype.outputs.cmd }} -v --only-fixed --output table resripper/shadowsocks-rust:test
 
     build-x86:
         name: Build x86 only - Scan image with scan-action
