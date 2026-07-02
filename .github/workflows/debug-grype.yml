@@ -47,58 +47,10 @@ jobs:
                     cache-from: type=gha
                     cache-to: type=gha,mode=max
 
-            -   name: List image
-                run: docker image ls
-
             -   name: Inspect image
-                run: docker image inspect resripper/shadowsocks-rust:test
-
-            -   name: Scan image
-                id: scan
-                uses: anchore/scan-action@v7
-                with:
-                    image: resripper/shadowsocks-rust:test
-                    fail-build: false
-                    only-fixed: true
-                    output-format: table
-
-    build-docker:
-        name: Build with docker CLI
-        runs-on: ubuntu-latest
-        steps:
-            -   name: Fetch repo
-                uses: actions/checkout@v7
-
-            -   name: Setup Docker
-                uses: docker/setup-docker-action@v5
-                with:
-                    daemon-config: |
-                        {
-                            "features": {
-                                "containerd-snapshotter": true
-                            }
-                        }
-
-            -   name: Setup QEMU
-                uses: docker/setup-qemu-action@v4
-
-            -   name: Setup Buildx
-                uses: docker/setup-buildx-action@v4
-
-            -   name: Build image
-                run: "docker buildx build --load \
-                        --platform linux/amd64,linux/arm64 \
-                        --tag resripper/shadowsocks-rust:test \
-                        --file shadowsocks-rust/dockerfile \
-                        --build-arg SS_VER=1.24.0 \
-                        --build-arg V2RAY_VER=5.49.0 \
-                        shadowsocks-rust"
-
-            -   name: List image
-                run: docker image ls
-
-            -   name: Inspect image
-                run: docker image inspect resripper/shadowsocks-rust:test
+                run: |
+                    docker image ls
+                    docker image inspect resripper/shadowsocks-rust:test
 
             -   name: Scan image
                 id: scan
