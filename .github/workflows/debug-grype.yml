@@ -8,7 +8,7 @@ on:
 
 jobs:
     build-all:
-        name: Build
+        name: Build - Scan image with scan-action
         runs-on: ubuntu-latest
         steps:
             -   name: Fetch repo
@@ -61,8 +61,64 @@ jobs:
                     only-fixed: true
                     output-format: table
 
+    build-all-cli:
+        name: Build - scan image with Grype CLI
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Fetch repo
+                uses: actions/checkout@v7
+
+            -   name: Setup Docker
+                uses: docker/setup-docker-action@v5
+                with:
+                    daemon-config: |
+                        {
+                            "features": {
+                                "containerd-snapshotter": true
+                            }
+                        }
+
+            -   name: Setup QEMU
+                uses: docker/setup-qemu-action@v4
+
+            -   name: Setup Buildx
+                uses: docker/setup-buildx-action@v4
+
+            -   name: Build image
+                uses: docker/build-push-action@v7
+                env:
+                    DOCKER_BUILD_RECORD_UPLOAD: false
+                with:
+                    context: shadowsocks-rust
+                    file: shadowsocks-rust/dockerfile
+                    platforms: linux/amd64,linux/arm64
+                    push: false
+                    load: true
+                    tags: resripper/shadowsocks-rust:test
+                    build-args: |
+                        SS_VER=1.24.0
+                        V2RAY_VER=5.49.0
+                    cache-from: type=gha
+                    cache-to: type=gha,mode=max
+
+            -   name: Inspect image
+                run: |
+                    docker image ls --tree
+                    docker image inspect resripper/shadowsocks-rust:test
+
+            -   name: Setup Grype
+                id: grype
+                uses: anchore/scan-action/download-grype@v3
+
+            -   name: Scan image
+                id: scan
+                run: ${{ steps.grype.outputs.cmd }} \
+                    --only-fixed \
+                    --output table \
+                    resripper/shadowsocks-rust:test
+
     build-x86:
-        name: Build - x86 only
+        name: Build x86 only - Scan image with scan-action
         runs-on: ubuntu-latest
         steps:
             -   name: Fetch repo
