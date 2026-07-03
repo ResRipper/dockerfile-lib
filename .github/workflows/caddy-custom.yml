@@ -30,7 +30,7 @@ jobs:
                 IMAGE_BASE=scratch
                 CADDY_VER=2.11.4
                 MOD_CF=0.2.4
-                MOD_DOCKER_PROXY=2.13.0
+                MOD_DOCKER_PROXY=2.13.1
             push: ${{ inputs.push == true }}
             scan: ${{ inputs.scan == true }}
 
@@ -41,9 +41,9 @@ jobs:
             image: caddy-custom
             tag: 2.11.4-alpine
             build_args: |
-                IMAGE_BASE=alpine:latest
+                IMAGE_BASE=alpine:3.24
                 CADDY_VER=2.11.4
                 MOD_CF=0.2.4
-                MOD_DOCKER_PROXY=2.13.0
+                MOD_DOCKER_PROXY=2.13.1
             push: ${{ inputs.push == true }}
             scan: ${{ inputs.scan == true }}
