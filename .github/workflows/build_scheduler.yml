@@ -5,13 +5,6 @@ name: Build scheduler
 
 on:
     workflow_dispatch:
-        inputs:
-            push:
-                type: boolean
-                default: true
-            scan:
-                type: boolean
-                default: true
     schedule:
         - cron: 0 0 * * 5
 
@@ -22,42 +15,15 @@ jobs:
             matrix:
                 platform:
                     -   linux/amd64,linux/arm64
-                include:
-                    -   image: shadowsocks-rust
-                        tag: 1.24.0
-                        build_args: |
-                            SS_VER=1.24.0
-                            V2RAY_VER=5.49.0
+                image: [
+                    caddy-custom,
+                    grav,
+                    shadowsocks-rust
+                ]
 
-                    -   image: grav
-                        tag: 2.0.8
-                        build_args: |
-                            ALPINE_VER=3.24
-                            GRAV_VER=2.0.8
-
-                    -   image: caddy-custom
-                        tag: 2.11.4
-                        build_args: |
-                            IMAGE_BASE=scratch
-                            CADDY_VER=2.11.4
-                            MOD_CF=0.2.4
-                            MOD_DOCKER_PROXY=2.13.1
-
-                    -   image: caddy-custom
-                        tag: 2.11.4-alpine
-                        latest: false
-                        build_args: |
-                            IMAGE_BASE=alpine:3.24
-                            CADDY_VER=2.11.4
-                            MOD_CF=0.2.4
-                            MOD_DOCKER_PROXY=2.13.1
-
-        uses: ./.github/workflows/builder.yml
-        secrets: inherit
-        with:
-            image: ${{ matrix.image }}
-            tag: ${{ matrix.tag }}
-            platform: ${{ matrix.platform }}
-            build_args: ${{ matrix.build_args }}
-            push: ${{ inputs.push == true }}
-            scan: ${{ inputs.scan == true }}
+        runs-on: ubuntu-slim
+        steps:
+            -   name: Builder trigger
+                run: gh workflow run -R resripper/dockerfile-lib ${{ matrix.image }}.yml -f push=true -f scan=true
+                env:
+                    GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
