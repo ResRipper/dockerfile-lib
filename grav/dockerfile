@@ -8,7 +8,7 @@ FROM alpine:${ALPINE_VER} AS configurator
 # Download and install Grav
 WORKDIR /var/www
 ARG GRAV_VER=2.0.4
-ADD https://getgrav.org/download/core/grav-admin/${GRAV_VER} grav-admin.zip
+ADD https://github.com/getgrav/grav/releases/download/${GRAV_VER}/grav-admin-v${GRAV_VER}.zip grav-admin.zip
 RUN unzip grav-admin.zip && mv grav-admin html
 
 # Remove unneeded files
