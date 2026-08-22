@@ -5,12 +5,13 @@ WORKDIR /build
 RUN cargo install --root /build shadowsocks-rust@${SS_VER}
 
 FROM golang:1 AS v2-builder
-ARG V2RAY_VER=5.49.0
+ARG V2RAY_VER=5.53.0
 WORKDIR /build
 
 RUN <<-EOR
     apt update && apt install -y git musl-tools bash-static
-    git clone --branch=v${V2RAY_VER} https://github.com/teddysun/v2ray-plugin && cd v2ray-plugin
+    git clone https://github.com/teddysun/v2ray-plugin && cd v2ray-plugin
+    go get github.com/v2fly/v2ray-core/v5@v${V2RAY_VER}
     LDFLAGS="-linkmode external -extldflags '-static' -X main.VERSION=v${V2RAY_VER} -s -w -buildid="
     CC=musl-gcc go build -trimpath -buildmode=pie -mod=readonly \
     -ldflags "${LDFLAGS}"
