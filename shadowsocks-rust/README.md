@@ -1,6 +1,6 @@
 # Shadowsocks-rust + V2Ray-plugin
 
-[Shadowsocks-rust](https://github.com/shadowsocks/shadowsocks-rust) with V2ray plugin maintained by [Teddy SUN](https://github.com/teddysun/v2ray-plugin)
+[Shadowsocks-rust](https://github.com/shadowsocks/shadowsocks-rust) with [V2ray plugin](https://github.com/teddysun/v2ray-plugin).
 
 ## Usage
 
