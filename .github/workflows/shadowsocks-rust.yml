@@ -25,9 +25,9 @@ jobs:
         secrets: inherit
         with:
             image: shadowsocks-rust
-            tag: 1.24.0
+            tag: 1.25.0
             build_args: |
-                SS_VER=1.24.0
+                SS_VER=1.25.0
                 V2RAY_VER=5.49.0
             push: ${{ inputs.push == true }}
             scan: ${{ inputs.scan == true }}
