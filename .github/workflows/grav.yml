@@ -25,9 +25,9 @@ jobs:
         secrets: inherit
         with:
             image: grav
-            tag: 2.1.2
+            tag: 2.1.6
             build_args: |
                 ALPINE_VER=3.24
-                GRAV_VER=2.1.2
+                GRAV_VER=2.1.6
             push: ${{ inputs.push == true }}
             scan: ${{ inputs.scan == true }}
