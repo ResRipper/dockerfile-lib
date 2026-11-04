@@ -25,10 +25,10 @@ jobs:
         secrets: inherit
         with:
             image: caddy-custom
-            tag: 2.11.7
+            tag: 2.11.8
             build_args: |
                 IMAGE_BASE=scratch
-                CADDY_VER=2.11.7
+                CADDY_VER=2.11.8
                 MOD_CF=0.2.4
                 MOD_DOCKER_PROXY=2.13.1
             push: ${{ inputs.push == true }}
@@ -39,10 +39,10 @@ jobs:
         secrets: inherit
         with:
             image: caddy-custom
-            tag: 2.11.7-alpine
+            tag: 2.11.8-alpine
             build_args: |
                 IMAGE_BASE=alpine:3.24
-                CADDY_VER=2.11.7
+                CADDY_VER=2.11.8
                 MOD_CF=0.2.4
                 MOD_DOCKER_PROXY=2.13.1
             push: ${{ inputs.push == true }}
