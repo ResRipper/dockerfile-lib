@@ -1,0 +1,47 @@
+FROM ubuntu:26.04 AS installer
+
+ARG XYCE_VER=7.10.0
+ARG BUILD_DATE=261004
+
+# Upgrade and install tools
+RUN apt update && apt upgrade -y && \
+    apt install -y wget zstd python3
+
+# Install Xyce dependencies
+RUN apt install -y \
+    libfftw3-bin libamd3 libopenblas0-openmp libgomp1 libsuitesparseconfig7 libgfortran5
+
+# Install Xyce and bash
+WORKDIR /root
+RUN mkdir /root/target_root
+
+RUN wget \
+    -O xyce.tar.zst \
+    https://github.com/ResRipper/Xyce-Builder/releases/download/Xyce-${XYCE_VER}-${BUILD_DATE}/xyce_serial-${XYCE_VER}.tar.zst
+
+RUN tar -xf xyce.tar.zst && \
+    mv usr /root/target_root && \
+    cp /usr/bin/bash /root/target_root/usr/bin/bash && \
+    ln -s /usr/bin/bash /root/target_root/usr/bin/sh
+
+# Copy dependencies
+ADD shared_lib_fetcher.py /root/
+RUN python3 /root/target_root/shared_lib_fetcher.py /root/target_root/usr/bin/Xyce /root/target_root/usr/lib
+RUN python3 /root/target_root/shared_lib_fetcher.py /usr/bin/bash /root/target_root/usr/lib
+
+# Create links
+WORKDIR /root/target_root
+RUN ln -s /usr/bin ./bin && \
+    ln -s /usr/lib ./lib && \
+    ln -s /usr/lib ./lib64
+
+# Clean-up
+RUN rm -rf \
+    /root/target_root/usr/share/doc \
+    /root/target_root/usr/share/xyce-serial/examples \
+    /root/target_root/usr/share/xyce-serial/MatlabExamples \
+    /root/target_root/usr/share/xyce-serial/PythonExamples \
+    /root/target_root/usr/share/xyce-serial/SimulinkExamples
+
+FROM scratch AS output
+COPY --from=installer /root/target_root /
