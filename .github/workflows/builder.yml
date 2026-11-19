@@ -1,5 +1,8 @@
 # Copyright 2026 ResRipper.
 # SPDX-License-Identifier: Apache-2.0
+#
+# !! DO NOT scan multi-arch image with push disabled !!
+# Issue: https://github.com/anchore/stereoscope/issues/645
 
 name: Builder
 
