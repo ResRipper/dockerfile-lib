@@ -26,8 +26,8 @@ RUN tar -xf xyce.tar.zst && \
 
 # Copy dependencies
 ADD shared_lib_fetcher.py /root/
-RUN python3 /root/target_root/shared_lib_fetcher.py /root/target_root/usr/bin/Xyce /root/target_root/usr/lib
-RUN python3 /root/target_root/shared_lib_fetcher.py /usr/bin/bash /root/target_root/usr/lib
+RUN python3 /root/shared_lib_fetcher.py /root/target_root/usr/bin/Xyce /root/target_root/usr/lib
+RUN python3 /root/shared_lib_fetcher.py /usr/bin/bash /root/target_root/usr/lib
 
 # Create links
 WORKDIR /root/target_root
