@@ -1,0 +1,35 @@
+# Copyright 2026 ResRipper.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Xyce - Base image
+
+on:
+    push:
+        paths:
+            - xyce/dockerfile
+            - xyce-base/shared_lib_fetcher.py
+            - .github/workflows/xyce-base.yml
+    workflow_dispatch:
+        inputs:
+            push:
+                description: Push image to registry
+                type: boolean
+                default: false
+            scan:
+                description: Scan image for vulnerabilities
+                type: boolean
+                default: false
+
+jobs:
+    build:
+        uses: ./.github/workflows/builder.yml
+        secrets: inherit
+        with:
+            image: xyce-base
+            tag: 7.10.0-261004
+            build_args: |
+                XYCE_VER=7.10.0
+                BUILD_DATE=261004
+            platform: linux/amd64
+            push: ${{ inputs.push == true }}
+            scan: ${{ inputs.scan == true }}
