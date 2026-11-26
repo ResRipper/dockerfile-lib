@@ -45,5 +45,6 @@ jobs:
                 CADDY_VER=2.11.9
                 MOD_CF=0.2.4
                 MOD_DOCKER_PROXY=2.13.1
+            latest: false
             push: ${{ inputs.push == true }}
             scan: ${{ inputs.scan == true }}
