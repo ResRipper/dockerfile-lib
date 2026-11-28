@@ -6,7 +6,7 @@ name: Xyce - Base image
 on:
     push:
         paths:
-            - xyce/dockerfile
+            - xyce-base/dockerfile
             - xyce-base/shared_lib_fetcher.py
             - .github/workflows/xyce-base.yml
     workflow_dispatch:
