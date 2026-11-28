@@ -18,7 +18,8 @@ jobs:
                 image: [
                     caddy-custom,
                     grav,
-                    shadowsocks-rust
+                    shadowsocks-rust,
+                    xyce-base
                 ]
 
         runs-on: ubuntu-slim
